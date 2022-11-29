@@ -1,5 +1,6 @@
 package com.springboot.book.domain.posts;
 
+import com.springboot.book.domain.BaseTimeEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor // 기본생성자 자동추가, public Posts(){}
 @Entity
-public class Posts {
+public class Posts extends BaseTimeEntity {
 
     @Id // Table PK
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,5 +38,11 @@ public class Posts {
         this.content = content;
         this.author = author;
     }
+
+    public void update(String title, String content){
+        this.title = title;
+        this.content = content;
+    }
+
 
 }
