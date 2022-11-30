@@ -20,6 +20,8 @@ public class PostsApiController {
 
     @PostMapping("/api/v1/posts")
     public Long save(@RequestBody PostsSaveRequestDto requestDto){
+
+        System.out.println("requestDto : " + requestDto.getAuthor());
         return postsService.save(requestDto);
     }
 

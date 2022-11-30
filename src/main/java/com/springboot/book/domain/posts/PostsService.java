@@ -1,11 +1,14 @@
 package com.springboot.book.domain.posts;
 
+import com.springboot.book.web.dto.PostsListResponseDto;
 import com.springboot.book.web.dto.PostsResponseDto;
 import com.springboot.book.web.dto.PostsSaveRequestDto;
 import com.springboot.book.web.dto.PostsUpdateRequestDto;
-import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -17,6 +20,7 @@ public class PostsService {
     public Long save(PostsSaveRequestDto requestDto) {
         return postRepository.save(requestDto.toEntity()).getId();
     }
+
 
     @Transactional
     public PostsResponseDto findById(Long id) {
@@ -35,5 +39,14 @@ public class PostsService {
         posts.update(requestDto.getTitle(), requestDto.getContent());
 
         return id;
+    }
+
+     // readonly 의 경우 트랜잭션 범위는 유지하되 조회속도 개선해줌.
+
+    @Transactional(readOnly = true)
+    public List<PostsListResponseDto> findAllDesc() {
+        return postRepository.findAllDesc().stream()
+            .map(PostsListResponseDto::new)
+            .collect(Collectors.toList());
     }
 }
