@@ -41,12 +41,18 @@ public class PostsService {
         return id;
     }
 
-     // readonly 의 경우 트랜잭션 범위는 유지하되 조회속도 개선해줌.
-
+    // readonly 의 경우 트랜잭션 범위는 유지하되 조회속도 개선해줌.
     @Transactional(readOnly = true)
     public List<PostsListResponseDto> findAllDesc() {
         return postRepository.findAllDesc().stream()
             .map(PostsListResponseDto::new)
             .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void delete(Long id){
+        Posts posts = postRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없음"));
+        postRepository.delete(posts);
     }
 }
