@@ -1,4 +1,4 @@
 # Project exclude paths
 /.gradle/
 .idea
-src/main/resources/templates/application-oauth.yml
+/src/main/resources/templates/application-oauth.yml
