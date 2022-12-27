@@ -5,4 +5,6 @@ spring:
     console:
       enabled: true
   profiles:
-    include: "oauth"
+    include: oauth
+  session:
+    store-type: jdbc

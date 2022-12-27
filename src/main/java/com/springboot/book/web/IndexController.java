@@ -1,10 +1,13 @@
 package com.springboot.book.web;
 
 
+import com.springboot.book.config.auth.LoginUser;
+import com.springboot.book.config.auth.dto.SessionUser;
 import com.springboot.book.domain.posts.PostsService;
 import com.springboot.book.web.dto.PostsListResponseDto;
 import com.springboot.book.web.dto.PostsResponseDto;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,13 +19,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class IndexController {
 
     private final PostsService postsService;
+    private final HttpSession httpSession;
 
     @GetMapping("/")
-    public String index(Model model){
-
-        List<PostsListResponseDto> temp = postsService.findAllDesc();
-
+    public String index(Model model, @LoginUser SessionUser user){
         model.addAttribute("posts", postsService.findAllDesc());
+
+        if(user != null){
+            model
+                .addAttribute("username", user.getName());
+        }
         return "index";
     }
 
