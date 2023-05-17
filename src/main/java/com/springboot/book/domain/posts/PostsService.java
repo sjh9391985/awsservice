@@ -36,6 +36,7 @@ public class PostsService {
         Posts posts = postRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
 
+        // JPA 영속성 컨텍스트 때문에 DB 쿼리를 직접 보내지 않고도 업데이트가 가능하다.
         posts.update(requestDto.getTitle(), requestDto.getContent());
 
         return id;
